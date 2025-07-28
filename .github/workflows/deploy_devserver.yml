@@ -35,5 +35,3 @@ jobs:
           cd /home/achalinus/dev
           docker compose down
           docker compose up -d
-
-# /home/achalinus/dev_franzi/resources
