@@ -1,0 +1,39 @@
+name: Deploy to DevServer
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    name: Update
+    runs-on: [ self-hosted, achalinus ]
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+
+      - name: Remove old Resource on Development Server
+        run: |
+          rm -rf /home/achalinus/dev/resources/${{ github.event.repository.name }}
+      
+      - name: Prepare AltV Directory
+        run: |
+
+          cp -r src/* platformResourcePresets/altv/assets/stream/
+
+          echo "Content of platformResourcePresets/altv/assets/stream/ after copy:"
+          ls -R platformResourcePresets/altv/assets/stream/
+
+          mkdir -p /home/achalinus/dev/resources/${{ github.event.repository.name }}
+
+          cp -r platformResourcePresets/altv/* /home/achalinus/dev/resources/${{ github.event.repository.name }}
+        shell: bash
+        
+      - name: Restart Development Server
+        run: |
+          cd /home/achalinus/dev
+          docker compose down
+          docker compose up -d
+
+# /home/achalinus/dev_franzi/resources
