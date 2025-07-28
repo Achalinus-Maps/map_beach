@@ -8,7 +8,7 @@ on:
 jobs:
   build:
     name: Update
-    runs-on: [ self-hosted, achalinus ]
+    runs-on: [ "self-hosted", "achalinus" ]
     steps:
       - name: Checkout Repo
         uses: actions/checkout@v4
